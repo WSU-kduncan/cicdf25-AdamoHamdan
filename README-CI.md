@@ -5,13 +5,13 @@ Since this is basically a repeat of the actions done in Project 3, the following
 
 Link directly to the `web-content` folder: [web-content](/web-content/)
 
-Also in the project folder, the `Dockerfile` was created in correlation to the web content with the purpose of being able to put the web content into a apache container and move it into apaches default directory to be able to create access it on a website link/browser
+Also in the project folder, the `Dockerfile` was created in correlation to the web content with the purpose of being able to pull from Apache put the web content into a apache container and move it into apaches default directory to be able to create access it on a website link/browser
 
 Link directly to the `Dockerfile`: [Dockerfile](Dockerfile)
 
 The following steps follow along with the process of creating a Docker Image and using it:
 1. Be in Terminal within the directory containing the web-content
-2. Use the following docker command to build a container image containing the web content: `docker build -t admahamdan2005/brawlstars-site:latest .`
+2. Use the following docker command to build a container image containing the web content: `docker build -t admahamdan2005/brawlstars-site:latest .` (latest tag makes sure to always show the most recent version of the image)
 3. Input `docker login` to sign into your docker hub account, you will be given a prompt to enter your username and such and then given a PAT (personal access token) to input in order to fully enter in the desired account
 4. Push the docker image into personal repository within docker hub: `docker push admahamdan2005/brawlstars-site:latest`
 5. Now you should be able to run your image: `docker run -d -p 8080:80 admahamdan2005/brawlstars-site:latest` (runs on detatched mode and on container port 80 and host port 8080)
