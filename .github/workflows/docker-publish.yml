@@ -1,0 +1,6 @@
+name: build and push Docker Images to main branch
+
+on:
+  push:
+    branches:
+      - main
