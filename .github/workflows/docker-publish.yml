@@ -1,6 +1,35 @@
-name: build and push Docker Images to main branch
+name: build and push Docker images to main branch
 
 on:
   push:
     branches:
       - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: check the repository
+        uses: actions/checkout@v4
+
+      - name: seeting up the QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: setting up Docker buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: logging into Dockerhub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: build and push Docker images
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/brawlstars-site:latest
