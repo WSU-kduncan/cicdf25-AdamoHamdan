@@ -74,3 +74,25 @@ Below is a summary of the above listed steps in order:
 4. Logs into Docker with the standard of asking for username and password (which we use the mentioned PAT as authorization)
 5. Builds and pushes the docker image from my webcontent folder with the initialization from the Dockerfile for reference/context
 
+- Values that would need updating on a new repository:
+- Workflow changes:
+  - docker image name: would need to match docker username/repository
+  - Dockerfile: Maybe changed, depending on if it is in root or within a folder (I kept mine in root for this project and project 3)
+  - Branch trigger: must match the workflow deployment type/strategy
+- Repository changes:
+  - secret names/variables: secret values must copy that of the docker username and token meant to be used for that repository (ex: the DOCKER_USERNAME and DOCKER_TOKEN)
+Workflow folder with yml file within it for reference (by this point the yml file may have been updated to fit part 3's standards, you can alwasy refer to the code blocks I provided in this section or commit history!): [.github/workflows](https://github.com/WSU-kduncan/cicdf25-AdamoHamdan/blob/main/.github/workflows/docker-publish.yml)
+
+## Testing & Validating
+The following steps are to ensure the workflow did its tasking:
+1. Make a commit within the repository that leads to the main branch
+2. Within repository, navigate to Actions tab, as there you should see the list of all the workflow runs with their commit messages
+3. If the commits have a checkmark next to them, that means the workflow succeeded!
+4. You can click on these workflow runs to see the logs for further data to be able to see if the steps were all passed and such
+
+The following steps are to verify the DockerHub Image works:
+1. Within the repository on the terminal, pull the docker image (everything should be up to date when doing so in terms of image version): `docker pull admahamdan2005/brawlstars-site:latest`
+2. After pulling, run the image within the repository: `docker run -d -p 8080:80 admahamdan2005/brawlstars-site:latest`
+3. When going to a local browser, the link `http://localhost:8080/` should be running the web content within the docker image (which in my case is the brawl stars website), which would mean the CI is working all good!
+
+Link to my DockerHub Repository once more: [DockerHub - admahamdan2005](https://hub.docker.com/repositories/admahamdan2005)
