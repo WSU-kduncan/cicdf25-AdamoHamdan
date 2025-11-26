@@ -19,3 +19,58 @@ The following steps follow along with the process of creating a Docker Image and
 7. Boom! Now go check out my Brawl Stars Website!
 
 Link to my DockerHub Repository where my one and lonely docker image sits: [DockerHub - admahamdan2005](https://hub.docker.com/repositories/admahamdan2005)
+
+## Configurating GitHub Repository Secrets
+1. Go to DockerHubs website > Navigate to Account Settings: Personal Access Tokens (PAT)
+2. Click Generate New Access Token > Assign it a name value (went with CEG3120-Project4) and access permissions/scope (for this project, I went with read/write so that GitHub is able to read the images and push them onto repository)
+3. Create the token and copy its access value
+4. In the GitHub repository, go to Settings > Secrets and Variables: Actions > Repository Secrets
+5. Create two new secret variables: DOCKER_USERNAME and DOCKER_TOKEN and assign them the secret values (docker username and docker access token value) and save both variables
+6. With these two secret values, we are now able to use my personal Docker username (admahamdan2005, yes that typo is part of the name), to be used as account authentication in order for GitHub to be able to push from the repository via actions towards my DockerHub repository
+
+## CI With GitHub Actions:
+Regarding the yml file part of the Workflow, there are different parts/segments that makeup the entire CI:
+
+- Workflow Trigger: Below would be what I had in my yml code block for the trigger:
+```
+on:
+  push:
+    branches:
+      - main
+```
+This ensures that the workflow triggers only when a commit is pushed to main within the repository so that CI runs on ready changes
+
+- Workflow Steps: Below were what I had in my yml code block for the actions the workflow would make
+```
+steps:
+      - name: check the repository
+        uses: actions/checkout@v4
+
+      - name: seeting up the QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: setting up Docker buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: logging into Dockerhub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: build and push Docker images
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/brawlstars-site:latest
+```
+Below is a summary of the above listed steps in order:
+1. Uses the GitHub checkout action in order to check out/get the data of the target repository
+2. Does the default QEMU set up action in order to perform cross-platform image building
+3. Sets up the docker build action in order to build an image
+4. Logs into Docker with the standard of asking for username and password (which we use the mentioned PAT as authorization)
+5. Builds and pushes the docker image from my webcontent folder with the initialization from the Dockerfile for reference/context
+
