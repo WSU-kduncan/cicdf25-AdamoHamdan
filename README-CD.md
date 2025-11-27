@@ -43,3 +43,70 @@ index 1c41fb4..5d2218b 100644
 In order to create a tag use the following formatted example as reference (used v1.0.0) within the repository directory: `git tag -a v1.0.0 -m "testing commit tag"`, and in order to push said tags to github use the following example as reference as well: `git push origin v1.0.0.0`
 
 ## Semantic Versioning Container Images with GitHub Actions
+In correlation with part 3 of the project, the workflow yml file has been revamped to extract the tags data and uses its version to build the docker image, as the trigger works with multiple tag types/values. There are also three tag types: `latest` (admahamdan2005/brawlstars-site:latest), `major` (admahamdan2005/brawlstars-site:1), `major.minor` (admahamdan2005/brawlstars-site:1.3)
+
+- Workflow Trigger: Below would be what I had in my yml code block for the trigger for part 3 of the project:
+```
+on:
+  push:
+    branches:
+      - 'v*.*.*'
+```
+This ensures that the workflow triggers only when tags with the listed format of semantic versioning are listed in git
+
+- Workflow Steps: Below is what I had in my yml code block for the actions the workflow would make in part 3 of the project:
+```
+steps:
+      - name: check the repository
+        uses: actions/checkout@v4
+
+      - name: setting up the QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: setting up Docker buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: logging into Dockerhub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+      
+      - name: get metadata through tags and labels
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ secrets.DOCKER_USERNAME }}/brawlstars-site
+
+      - name: build and push Docker images
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+ 
+```
+Below is a summary of the above listed steps in order:
+1. Uses the GitHub checkout action in order to check out/get the data of the target repository
+2. Does the default QEMU set up action in order to perform cross-platform image building
+3. Sets up the docker build action in order to build an image
+4. Logs into Docker with the standard of asking for username and password (which we use the mentioned PAT as authorization)
+5. Obtains the metadata for the git tag on the docker image
+6. Builds and pushes the docker image from my web content folder with the initialization from the Dockerfile for reference/context, now incorporating the tag data
+
+- Values that would need updating on a new repository:
+- Workflow changes:
+  - docker image in the meta action step/section: would need to match docker username/repository
+  - Tag values: must fit the targeted version type
+  - Dockerfile: Maybe changed, depending on if it is in root or within a folder (I kept mine in root for this project and project 3)
+  - Branch trigger/tag patterns: must match the workflow deployment type/strategy
+- Repository changes:
+  - secret names/variables: secret values must copy that of the docker username and token meant to be used for that repository (ex: the DOCKER_USERNAME and DOCKER_TOKEN)
+  - Like the workflow in part 2, repository on DockerHub must exist
+
+Workflow folder with yml file within it for reference (made for part 3 of the project): [.github/workflows](https://github.com/WSU-kduncan/cicdf25-AdamoHamdan/blob/main/.github/workflows/docker-publish.yml)
+
+## Testing & Validating
+The following steps are to ensure the workflow did its tasking:
+1. First make sure you have set up a tag using the `git tag` and `git push` commands
