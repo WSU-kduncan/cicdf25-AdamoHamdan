@@ -96,3 +96,15 @@ The following steps are to verify the DockerHub Image works:
 3. When going to a local browser, the link `http://localhost:8080/` should be running the web content within the docker image (which in my case is the brawl stars website), which would mean the CI is working all good!
 
 Link to my DockerHub Repository once more: [DockerHub - admahamdan2005](https://hub.docker.com/repositories/admahamdan2005)
+
+## Citations/Resources
+- Resources used throughout the Project:
+    - Course Webex Videos: Used to go back to for rewatching past lectures on the topics of git workflows, tags, yml files, and etc as well as watching those in class demos going over said topics
+    - ChatGPT: Used as a backup resource when either wanting a simple overview of a topic used in this project or an example of something, gave it prompts like "what is the purpose of GitHub Actions" and "Provide me a general layout example of a workflow file in Git"
+- Resources used for creating the Docker Image/Part 1 (Repeat from Project 3 for reference):
+  - [Docker](https://docs.docker.com/reference/dockerfile/): Used to understand the docker commands usable in these types of files and which ones are most fitting for project requirements
+  - ChatGPT: Of course I just had to use this bad boy to help me create a quick and easy web page to work off of for the rest of the project (Gave it the following prompt: "write a very basic index.html file with a theme of my favorite mobile game of all time: brawl stars! Have it simply share what its about and that its my favorite mobile game! make it obvious it was written by you and made for me! have it include another html page as well as a css file to go with it"
+- Resources used for Part 2 of the Project:
+  - [Docker Docs - CICD with GitHub Actions](https://docs.docker.com/ci-cd/github-actions/): Provided a general overview of the topic of GitHub Actions and even gave descriptions of what each action does, used to implement into making thw workflow yml file
+  - [GitHub Actions - build-push-action documentation](https://github.com/marketplace/actions/build-and-push-docker-images): Provided an actual general layout of the workflow yml file, used to work off of when creating my workflow in regards to the GitHub actions learned
+  - [GitHub - publishing images to DockerHub](https://docs.github.com/en/actions/guides/publishing-docker-images#publishing-images-to-docker-hub): Provided the layout and general overview of publishing images to DockerHub and used it to incorporate that into the workflow step within the yml file
