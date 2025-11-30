@@ -1,4 +1,4 @@
-# Project 4 - CD
+# Project 4 - CD (NOTE: Made an oopsie! If you're reading this please go to the other read me file for full documentation contents!)
 
 ## Generating Tags
 Tags in git are affiliated with semantic versioning, which help with pulling, pushing, or just simply obtaining a specific version of a docker image without always using the latest version. In order to see tags simply use the `git tags` command within your repository directory: as it would list down every version tag you have, heres an example:
