@@ -110,3 +110,18 @@ Workflow folder with yml file within it for reference (made for part 3 of the pr
 ## Testing & Validating
 The following steps are to ensure the workflow did its tasking:
 1. First make sure you have set up a tag using the `git tag` and `git push` commands
+2. Within repository, navigate to Actions tab, as there you should see the list of all the workflow runs with their commit messages
+3. If the commits have a checkmark next to them, that means the workflow succeeded!
+4. You can click on these workflow runs to see the logs for further data to be able to see if the steps were all passed and such
+5. Also you can check the repository Tags button to see the list of all tags pushed to the repository
+
+The following steps are to verify the DockerHub Image works:
+1. On DockerHub, check the repository containing the image and inspect its tag history as it should contain different version tags and such
+2. Within the repository on the terminal, pull the docker image (everything should be up to date when doing so in terms of image version): `docker pull admahamdan2005/brawlstars-site:latest`
+3. After pulling, run the image within the repository: `docker run -d -p 8080:80 admahamdan2005/brawlstars-site:latest`
+4. When going to a local browser, the link `http://localhost:8080/` should be running the web content within the docker image (which in my case is the brawl stars website), which would mean the CI is working all good!
+
+Link to my DockerHub Repository once more: [DockerHub - admahamdan2005](https://hub.docker.com/repositories/admahamdan2005)
+
+## Citations/Resources
+
