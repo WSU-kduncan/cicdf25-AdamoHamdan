@@ -146,7 +146,7 @@ In correlation with part 3 of the project, the workflow yml file has been revamp
 ```
 on:
   push:
-    branches:
+    tags:
       - 'v*.*.*'
 ```
 This ensures that the workflow triggers only when tags with the listed format of semantic versioning are listed in git
