@@ -1,5 +1,21 @@
 # Project 4 - CI
 
+## Continuous Integration Project Overview
+The general goal of this project was to get used to the concept of working with and creating CI (Continuous Integration), as in order to do so for this project we had to create one that constantly builds and publishes a Docker image containing web content for everytime a commit or change is added or made to the repository's main branch, as the result should be a new version of the Docker image being presented and made with every commit. With this project, a better understanding of how Continuous Integration and the use of Git Actions and Workflows should be learned.
+
+The following list of tools were used in order to carry out the implementation of Continuos Integration:
+- GitHub CI/CD Course Repository: The main placeholder of the entire Project as it was used to contain the workflow, web content for the docker image, the Dockerfile associated with said content, store the saved/pushed tags, and where all the commits to the main branch go to
+- GitHub Actions/Workflow: The main engine of the project CI as it was responsible for the many actions and steps occured to build and push the Docker image, used many Actions like checkout, set-up-buildx, login-action, and etc
+- GitHub Secrets: Used to contain the private values of my DockerHub username and a Docker Personal Access Token for the login step within the workflow, as it securely keeps said values secret and secure
+- Docker/DockerHub: Responsible for containing the Docker Image made from the web-content (initialized and set up via Dockerfile within the project) and all its versions and tags, and used throughout the workflow within the steps block of the yml file to login and push the image
+
+Thankfully I have not ran into any issues that resulted in me leaving anything unresolved or unfinished in the Project, as the only issue I really ran into was my workflow not properly showing any runs after polishing it for Part 3 standards as the problem that caused this was my trigger block being on `branch` and not `tags`, as after fixing that my test tags properly displayed the successful runs in actions and even showing said tags on my image on DockerHub.
+
+## Continuous Integration Diagram
+The following diagram is a visual representation of how the CI process moves in relation to the project context and objectives:
+
+(diagram image would go here)
+
 ## Dockerfile & Building Images
 Since this is basically a repeat of the actions done in Project 3, the following description is mostly a repeat: There is another folder within the directory `web-content`, and as the name says: it contains content you can read on a website. For my site, I asked my good friend ChatGPT (you may have heard about him/her as a professor/instructor for all the bad reasons if you know what I mean...) to create a site based off my favorite mobile game of all time that I still play to this day (and may have shamelessly found myself playing a few times during lecture): Brawl Stars, you can learn about it when you checkout my project submission and access the site!
 
@@ -234,3 +250,5 @@ Link to my DockerHub Repository once more: [DockerHub - admahamdan2005](https://
 - Resources used for Part 3 of the Project:
   - [GitHub - docker/metadata-action](https://github.com/docker/metadata-action?tab=readme-ov-file#semver): Gave an overview of the meta data action for GitHub and how to incorporate it into the workfile yml for Part 3
   - [Docker - Manage Tag Labels](https://docs.docker.com/build/ci/github-actions/manage-tags-labels/): Gave an overview of the tags action/initializing for GitHub and how to incorporate it into the workfile yml for Part 3 as well as the trigger
+- Resource used for the Part 4 diagram:
+  - (source here)
