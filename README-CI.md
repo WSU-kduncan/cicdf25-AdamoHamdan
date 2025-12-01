@@ -14,7 +14,7 @@ Thankfully I have not ran into any issues that resulted in me leaving anything u
 ## Continuous Integration Diagram
 The following diagram is a visual representation of how the CI process moves in relation to the project context and objectives:
 
-(diagram image would go here)
+![CI Diagram Image](ci-diagram-img.png)
 
 ## Dockerfile & Building Images
 Since this is basically a repeat of the actions done in Project 3, the following description is mostly a repeat: There is another folder within the directory `web-content`, and as the name says: it contains content you can read on a website. For my site, I asked my good friend ChatGPT (you may have heard about him/her as a professor/instructor for all the bad reasons if you know what I mean...) to create a site based off my favorite mobile game of all time that I still play to this day (and may have shamelessly found myself playing a few times during lecture): Brawl Stars, you can learn about it when you checkout my project submission and access the site!
@@ -251,4 +251,4 @@ Link to my DockerHub Repository once more: [DockerHub - admahamdan2005](https://
   - [GitHub - docker/metadata-action](https://github.com/docker/metadata-action?tab=readme-ov-file#semver): Gave an overview of the meta data action for GitHub and how to incorporate it into the workfile yml for Part 3
   - [Docker - Manage Tag Labels](https://docs.docker.com/build/ci/github-actions/manage-tags-labels/): Gave an overview of the tags action/initializing for GitHub and how to incorporate it into the workfile yml for Part 3 as well as the trigger
 - Resource used for the Part 4 diagram:
-  - (source here)
+  - [LucidChart](https://lucid.app/documents#/home?folder_id=recent): Used this website to create the diagram
