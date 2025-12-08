@@ -158,7 +158,7 @@ Resources:
     DependsOn: AttachGateway
     Properties:
       ImageId: !FindInMap [AWSRegionAMI, !Ref "AWS::Region", HVM64]
-      InstanceType: t2.micro
+      InstanceType: t2.medium
       KeyName: !Ref KeyName
       Tags:
         - Key: Application
@@ -179,16 +179,31 @@ Resources:
           !Sub |
             #!/bin/bash -xe
             apt-get update && \
-            apt-get install -y \
-              git \
-              htop \
-              apache2 \
-              python3 \
-              python3-pip \
-              wamerican \
-              docker.io \
-              wget \ 
-              sl && \
             
+            # installs git and docker and other miscellaneous things
+            apt-get install -y \
+               git \
+               htop \
+               apache2 \
+               docker.io && \
+               
+            # copies old hostname and changes current hostname to unique one
+            cp /etc/hostname /etc/hostname.old && \
+            hostnamectl set-hostname Project5-Instance && \
+
+            # starts and enables docker
+            systemctl enable docker && \
+            systemctl start docker && \
+
+            # fixes docker permissions on default
+            sudo usermod -aG docker $USER
+            
+            # pulls my docker image 
+            docker pull admahamdan2005/brawlstars-site:latest && \
+            
+            # runs docker image in detatched mode (host port 80, user 80), container restarts automatically if system reboots
+            docker run -d -p 80:80  admahamdan2005/brawlstars-site:latest --restart unless-stopped && \
+
             system
             reboot
+
