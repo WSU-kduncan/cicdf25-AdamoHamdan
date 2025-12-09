@@ -10,11 +10,11 @@ docker pull $IMAGE_NAME:latest
 echo "Step 1 Complete!"
 
 echo "Step 2: stops previous running container image"
-docker stop $IMAGE_NAME 2>/dev/null || true
+docker stop $CONTAINER_NAME 2>/dev/null || true
 echo "Step 2 Complete!"
 
 echo "Step 3: removes previous running container image"
-docker rm $IMAGE_NAME 2>/dev/null || true
+docker rm $CONTAINER_NAME 2>/dev/null || true
 echo "Step 3 Complete!"
 
 echo "Step 4: runs a new container image"
