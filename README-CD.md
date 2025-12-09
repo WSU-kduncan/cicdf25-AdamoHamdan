@@ -86,3 +86,27 @@ And of course run the same browser search `http://100.30.142.170/` to make sure 
 
 For reference to my bash script, here is a direct link to it: [refresh.sh](/deployment/refresh.sh)
 
+## Listening
+
+### Configurating a `webhook` Listener on EC2 Instance
+Here's how to properly install Adnans webhook for the project:
+- On instance, use the command `sudo apt install webhook`
+- To make sure its installed, run `webhook --version` to make sure it is there
+
+For the webhook, the `hooks.json` file is set to configure a hook definition for webhook to load and run, as details of the hook is as followed:
+- Custom name of "deployment container" (I thought it was fitting)
+- Executes the command from the refresh script located in the deployment folder within instance and does so on home directory
+- Only triggers when HTTP contains a header
+
+To test it works, run `sudo webhook -hooks /var/webhook/hooks.json -verbose`, as the following output should show if successful:
+
+```
+ubuntu@Project5-Instance:~/cicdf25-AdamoHamdan$ sudo webhook -hooks /var/webhook/hooks.json -verbose
+[webhook] 2025/12/09 03:53:22 version 2.8.0 starting
+[webhook] 2025/12/09 03:53:22 setting up os signal watcher
+[webhook] 2025/12/09 03:53:22 attempting to load hooks from /var/webhook/hooks.json
+[webhook] 2025/12/09 03:53:22 found 1 hook(s) in file
+[webhook] 2025/12/09 03:53:22   loaded: deployment-container
+[webhook] 2025/12/09 03:53:22 serving hooks on http://0.0.0.0:9000/hooks/{id}
+[webhook] 2025/12/09 03:53:22 os signal watcher ready
+```
