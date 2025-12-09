@@ -63,8 +63,26 @@ The script creates two variables to represent value tracking a container name an
 To verify it works, within the deployment folder make sure the executable permissions for the file is good using `chmod +x refresh.sh` and then run it using `./refresh.sh`, as it an example successful run is seen as followed:
 
 ```
-
+ubuntu@Project5-Instance:~/cicdf25-AdamoHamdan/deployment$ ./refresh.sh
+Step 1: pulls latest Docker image
+latest: Pulling from admahamdan2005/brawlstars-site
+Digest: sha256:2b42c039510d1746d0101f6e26445a2e2df1e535ea78b13ff43f7cf098e21674
+Status: Image is up to date for admahamdan2005/brawlstars-site:latest
+docker.io/admahamdan2005/brawlstars-site:latest
+Step 1 Complete!
+Step 2: stops previous running container image
+webapp
+Step 2 Complete!
+Step 3: removes previous running container image
+webapp
+Step 3 Complete!
+Step 4: runs a new container image
+bbc844fb25e01fe74cafd5d231aa1b518d1d3a8e9b322284e288e2bb08faed06
+Step 4 Complete!
+All Steps Completed!
 ```
 
-For reference of my bash script, here is a direct link to it: [refresh.sh](/deployment/refresh.sh)
+And of course run the same browser search `http://100.30.142.170/` to make sure the content is still being displayed properly with the new container!
+
+For reference to my bash script, here is a direct link to it: [refresh.sh](/deployment/refresh.sh)
 
