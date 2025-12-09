@@ -3,5 +3,16 @@
     "id": "refresh web-content/webapp",
     "execute-command": "/home/ubuntu/deployment/refresh.sh",
     "command-working-directory": "/home/ubuntu",
+    "response-message": "Refresh script running:",
+    "trigger-rule": {
+      "match": {
+        "type": "value",
+        "value": "secretValue",
+        "parameter": {
+          "source": "header",
+          "name": "X-Hub-Signature"
+        }
+      }
+    }
   }
 ]
