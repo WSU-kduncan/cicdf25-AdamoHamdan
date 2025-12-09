@@ -1,0 +1,7 @@
+[
+  {
+    "id": "refresh web-content/webapp",
+    "execute-command": "/home/ubuntu/deployment/refresh.sh",
+    "command-working-directory": "/home/ubuntu",
+  }
+]
