@@ -1,5 +1,24 @@
 # Project 5 - CD 
 
+## Continuous Deployment Project Overview 
+The general goal of this project was to get used to the concept of working with and creating CD (Continuous Deployment), as we had to fully operate building, pushing, tagging, and publishing my Docker image container. In order to accomplish these tasks, we had to create a script that pulls my image and removes previous running container with a new one to run the image and assign a webhook listener that runs that script, where at the end the image should always be constantly updating the container holding the latest version of the docker web content image.
+
+The following list of tools were used in order to carry out the implementation of Continuos Deployment (left the tools from Project 4 becasue they feel fitting):
+- GitHub CI/CD Course Repository: The main placeholder of the entire Project as it was used to contain the deloyment folder containing the bash script and webhooks, web content for the docker image, the Dockerfile associated with said content, store the saved/pushed tags, and where all the commits to the main branch go to
+- GitHub Actions/Workflow: The main engine of the project CI as it was responsible for the many actions and steps occured to build and push the Docker image, used many Actions like checkout, set-up-buildx, login-action, and etc
+- GitHub Secrets: Used to contain the private values of my DockerHub username and a Docker Personal Access Token for the login step within the workflow, as it securely keeps said values secret and secure, as well as assigning "secretValue" to webhook listener
+- Docker/DockerHub: Responsible for containing the Docker Image made from the web-content (initialized and set up via Dockerfile within the project) and all its versions and tags, and used throughout the workflow within the steps block of the yml file to login and push the image, as well as copies of the webhooks used for the webhooks and bash script
+- Bash Script (refresh.sh): Script in deployment folder meant to be the action a webhook istener does in order to update the current container for the web content Docker image
+- EC2 Instance: Set up to contain a copy of the GitHub Repository for reference, as well as used to operate the actual webhook listener, service file, and bash script
+- Adnanh/webhook: Used his webhook package to create the webhook listener and the service file, basically he is responsible for the entire webhook bananza
+
+(will state issues when fully finished: still tinkering to fully prepare for the presentation)
+
+### Continuous Deployment Diagram
+The following diagram is a visual representation of how the CD process moves in relation to the project context and objectives:
+
+(Image will go here)
+
 ## Scripting a Refresh
 
 ### EC2 Instance Details
@@ -168,3 +187,33 @@ The webhook service file intializes and sest everything up for the hook listener
 In order to make sure the service is applied, use `sudo systemctl daemon-reload` to save and initialize new changes as well as restarting, enabling, and starting up again the webhook service. You can also use the above webhook status command to make sure the service is good, as for the service you would have to track if it is running on port 9000 as needed, having a running service, and having correct hooks loaded.
 
 For reference for my hook listener, you can view it here: [webhook.service](/deployment/webhook.service)
+
+## Sending a Payload
+For this Project, I decided to go with GitHub for this part because Im already more familiar with it in general, as the workflow in the repository is already set up to help build and push the docker images.
+
+The following steps help to step up the webhooks in GitHub:
+- Navigate to Settings > WebHooks > Add WebHooks
+- Payload Url: http://100.30.142.170:9000/hooks/deployment-container
+- Content Type: application/json
+- Secret: secretValue
+- SSL: Disabled since we dont use it
+- Event Trigger: Just push tag events
+
+Referring back to the workflow from Project 4, the trigger that would be used to send the payload would be when a new git tag is pushed to v*.*.*, as within the terminal you should see the webhook operate the bash script within the hook listener using `journalctl -u webhook -f`, and within github you can go within the recent deliveries and see the payload information from in there, as everything should be green check marked just like how a workflow would be.
+
+To ensure the security verification is good, refer to the following code block in the hooks.json listener:
+
+```
+"trigger-rule": {
+      "match": {
+        "type": "payload-hash-sha256",
+        "secret": "secretValue",
+        "parameter": {
+          "source": "header",
+          "name": "X-Hub-Signature-256"
+        }
+```
+
+That ensures that requests involving "X-Hub Signatures: secretValue" can only trigger as any requests missing will be rejected.
+
+## Citations/Resources
