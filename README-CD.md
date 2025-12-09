@@ -14,7 +14,8 @@ For this Project, I went back to the good ole days within the course (literally 
   - WSU Campus
   - Within Instance VPC/Subnet
   - Allows HTTP on Port 80 and Port 8080 from anywhere
-- Security Group Configuration: The SSH rules limit where one can access the instance containing the Continuous Deployment, only to be in my personal home or at WSU, HTTP on Ports 80 and 8080 need to be from anywhere in order to make it publicly accessable from within the instance
+  - Allows TCP anywhere on Port 9000
+- Security Group Configuration: The SSH rules limit where one can access the instance containing the Continuous Deployment, only to be in my personal home or at WSU, HTTP on Ports 80 and 8080 need to be from anywhere in order to make it publicly accessable from within the instance, as well as 9000 needed for webhooks to work
 
 For reference to the CloudFormation template, heres the entire yml file that I used to build the instance for this Project: [HAMDANP5-CF.yml](HAMDANP5-CF.yml)
 
@@ -110,3 +111,60 @@ ubuntu@Project5-Instance:~/cicdf25-AdamoHamdan$ sudo webhook -hooks /var/webhook
 [webhook] 2025/12/09 03:53:22 serving hooks on http://0.0.0.0:9000/hooks/{id}
 [webhook] 2025/12/09 03:53:22 os signal watcher ready
 ```
+
+You can also use `sudo systemctl status webhook` to make sure the webhook is properly running the listener as it should show the script running as followed (for some reason is shows most of it but not all of it):
+
+```
+ubuntu@Project5-Instance:~$ sudo systemctl status webhook
+● webhook.service - Webhook Listener
+     Loaded: loaded (/usr/lib/systemd/system/webhook.service; enabled; pres>
+     Active: active (running) since Tue 2025-12-09 05:05:40 UTC; 16min ago
+   Main PID: 2638 (webhook)
+      Tasks: 8 (limit: 4667)
+     Memory: 27.0M (peak: 35.9M)
+        CPU: 206ms
+     CGroup: /system.slice/webhook.service
+             └─2638 /usr/bin/webhook -hooks /var/webhook/hooks.json -hotrel>
+
+Dec 09 05:13:03 Project5-Instance webhook[2638]: Step 3 Complete!
+Dec 09 05:13:03 Project5-Instance webhook[2638]: Step 4: runs a new contain>
+Dec 09 05:13:03 Project5-Instance webhook[2638]: 731c3933952e8ea370f0de14d3>
+Dec 09 05:13:03 Project5-Instance webhook[2638]: Step 4 Complete!
+Dec 09 05:13:03 Project5-Instance webhook[2638]: All Steps Completed!
+Dec 09 05:13:03 Project5-Instance webhook[2638]: [webhook] 2025/12/09 05:13>
+Dec 09 05:18:01 Project5-Instance webhook[2638]: [webhook] 2025/12/09 05:18>
+Dec 09 05:18:01 Project5-Instance webhook[2638]: [webhook] 2025/12/09 05:18>
+Dec 09 05:18:01 Project5-Instance webhook[2638]: [webhook] 2025/12/09 05:18>
+Dec 09 05:18:01 Project5-Instance webhook[2638]: [webhook] 2025/12/09 05:18
+```
+
+When monitoring the webhook, use the `journalctl -u webhook -f` command to get a listed output of how your webhook listener worked, as the following output shows what that would look like (yet again the same weird stuff showing but it works when putting it on the browser):
+
+```
+ubuntu@Project5-Instance:~$ journalctl -u webhook -f
+Dec 09 05:13:03 Project5-Instance webhook[2638]: Step 3 Complete!
+Dec 09 05:13:03 Project5-Instance webhook[2638]: Step 4: runs a new container image
+Dec 09 05:13:03 Project5-Instance webhook[2638]: 731c3933952e8ea370f0de14d3346c908a1d2d1a9eaeb98a2558c14c44243df5
+Dec 09 05:13:03 Project5-Instance webhook[2638]: Step 4 Complete!
+Dec 09 05:13:03 Project5-Instance webhook[2638]: All Steps Completed!
+Dec 09 05:13:03 Project5-Instance webhook[2638]: [webhook] 2025/12/09 05:13:03 [5589eb] finished handling deployment-container
+Dec 09 05:18:01 Project5-Instance webhook[2638]: [webhook] 2025/12/09 05:18:01 [913bb4] incoming HTTP POST request from 140.82.115.12:26294
+Dec 09 05:18:01 Project5-Instance webhook[2638]: [webhook] 2025/12/09 05:18:01 [913bb4] deployment-container got matched
+Dec 09 05:18:01 Project5-Instance webhook[2638]: [webhook] 2025/12/09 05:18:01 [913bb4] deployment-container got matched, but didn't get triggered because the trigger rules were not satisfied
+Dec 09 05:18:01 Project5-Instance webhook[2638]: [webhook] 2025/12/09 05:18:01 [913bb4] 200 | 30 B | 275.266µs | 100.30.142.170:9000 | POST /hooks/deployment-container
+```
+
+When looking at the journal output it is important to check if the script is running (the echo outputs stating the steps made and completed) as well as any docker commands running and giving outputs (the long string of text below step 4), and requests for where these webhook calls are being made.
+
+For reference for my hook listener, you can view it here: [hooks.json](/deployment/hooks.json)
+
+### Configurating a webhook Service on EC2 Instance
+The webhook service file intializes and sest everything up for the hook listener to work, as it does the following:
+- Starts hook at boot
+- Uses hot reload for said hook
+- Runs scripting as Ubuntu user
+- Restarts if errors occur to avoid jamming
+
+In order to make sure the service is applied, use `sudo systemctl daemon-reload` to save and initialize new changes as well as restarting, enabling, and starting up again the webhook service. You can also use the above webhook status command to make sure the service is good, as for the service you would have to track if it is running on port 9000 as needed, having a running service, and having correct hooks loaded.
+
+For reference for my hook listener, you can view it here: [webhook.service](/deployment/webhook.service)
