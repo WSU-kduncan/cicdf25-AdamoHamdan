@@ -10,7 +10,7 @@ Mappings:
   AWSRegionAMI: # AMI for Ubuntu server in each supported region 
     us-east-1:   # N. Virginia
     # AMI ID for Ubuntu 20 (ubuntu + apt) - Amazon Linux 2 AMI ami-02e136e904f3da870 (ec2-user + yum)
-      HVM64: ami-0360c520857e3138f # Changed ami-id to an Ubtuntu one (same one used from project 1, because yet again: IM BORING)
+      HVM64: ami-0ecb62995f68bb549 # Changed ami-id to an Ubtuntu one (same one used from project 1, because yet again: IM BORING)
 Resources:
   VPC:
     Type: 'AWS::EC2::VPC'
