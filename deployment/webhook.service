@@ -1,0 +1,14 @@
+[Unit]
+Description=webhook listener
+After=network.target
+Before=nextcloud-web.service
+
+[Service]
+ExecStart=/usr/bin/webhook -hooks /var/webhook/hooks.json -hotreload -verbose
+ExecReload=/bin/kill -HUP $MAINPID
+Type=simple
+Restart=always
+
+[Install]
+WantedBy=default.target
+RequiredBy=network.target
