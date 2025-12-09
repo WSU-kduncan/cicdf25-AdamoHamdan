@@ -1,14 +1,12 @@
 [Unit]
-Description=webhook listener
+Description=Webhook Listener
 After=network.target
-Before=nextcloud-web.service
 
 [Service]
 ExecStart=/usr/bin/webhook -hooks /var/webhook/hooks.json -hotreload -verbose
-ExecReload=/bin/kill -HUP $MAINPID
-Type=simple
 Restart=always
+User=ubuntu
+WorkingDirectory=/var/webhook
 
 [Install]
-WantedBy=default.target
-RequiredBy=network.target
+WantedBy=multi-user.target
