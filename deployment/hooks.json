@@ -6,11 +6,11 @@
     "response-message": "Refresh script running:",
     "trigger-rule": {
       "match": {
-        "type": "value",
-        "value": "secretValue",
+        "type": "payload-hash-sha256",
+        "secret": "mySuperSecret",
         "parameter": {
           "source": "header",
-          "name": "X-Hub-Signature"
+          "name": "X-Hub-Signature-256"
         }
       }
     }
