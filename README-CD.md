@@ -54,3 +54,17 @@ docker run -d -p 80:80  admahamdan2005/brawlstars-site:latest --restart unless-s
 ```
 
 The use of `-d` represents detached mode, meaning the docker image with all its content would be running in the background without the user manually within the containers terminal, as using `-it` (which means interactive terminal) would be when the user goes within the terminal to interact with its functionality, as detached mode would be the better use for testing due to web content production being better non-interactively.
+
+To make sure the Docker image works properly, go on a browser and input `http://100.30.142.170/` as it should display the website (the ip is the elastic ip/public ip from the instance used for the project)
+
+### Bash Script
+The script creates two variables to represent value tracking a container name and docker image name (use of variables creates easier method of plugging in other images for future use if needed). The script then pulls the latest Docker image version > stops current container > removes current container > then runs newest container with Docker image.
+
+To verify it works, within the deployment folder make sure the executable permissions for the file is good using `chmod +x refresh.sh` and then run it using `./refresh.sh`, as it an example successful run is seen as followed:
+
+```
+
+```
+
+For reference of my bash script, here is a direct link to it: [refresh.sh](/deployment/refresh.sh)
+
