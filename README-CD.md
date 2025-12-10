@@ -19,7 +19,7 @@ Throughout the Project, there were a few issues that occured when creating the w
 ### Continuous Deployment Diagram
 The following diagram is a visual representation of how the CD process moves in relation to the project context and objectives:
 
-(Image will go here)
+![CD Diagram Image](cd-diagram-img.png)
 
 ## Scripting a Refresh
 
