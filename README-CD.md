@@ -11,8 +11,10 @@ The following list of tools were used in order to carry out the implementation o
 - Bash Script (refresh.sh): Script in deployment folder meant to be the action a webhook istener does in order to update the current container for the web content Docker image
 - EC2 Instance: Set up to contain a copy of the GitHub Repository for reference, as well as used to operate the actual webhook listener, service file, and bash script
 - Adnanh/webhook: Used his webhook package to create the webhook listener and the service file, basically he is responsible for the entire webhook bananza
+- hooks listener: Used to represent where the webhook will run the bash script and when it would do so based on trigger condition
+- webhook service: Script file meant to initialize the webhooks to properly run and ping on port 9000 and such
 
-(will state issues when fully finished: still tinkering to fully prepare for the presentation)
+Throughout the Project, there were a few issues that occured when creating the webhooks, as it mostly came from the idea where I couldn't truly tell if my hook is properly working. The listener appears to be properly set up with exisiting file locations and directories within the repository as the trigger would not fully show the entire bash script output (the four steps as seen in the script in deployment folder), and it was hard to tell if my webhook was getting the payload from git. I will continue to constantly revamp the webhook content to make sure everything is properly set to go for the in person presentation (will refer to any more details and such during said presentation)
 
 ### Continuous Deployment Diagram
 The following diagram is a visual representation of how the CD process moves in relation to the project context and objectives:
@@ -217,3 +219,18 @@ To ensure the security verification is good, refer to the following code block i
 That ensures that requests involving "X-Hub Signatures: secretValue" can only trigger as any requests missing will be rejected.
 
 ## Citations/Resources
+- Resources used throughout the Project:
+    - Course Webex Videos: Used to go back to for rewatching past lectures on the topics of bash scripting recaps, webhook initialization, listeners and services files, and etc as well as watching those in class demos going over said topics
+    - ChatGPT: Used as a backup resource when either wanting a simple overview of a topic used in this project or an example of something, as well as helping me when really stumped at certain parts in the project, gave it prompts like "Provide an overview of how to properly set up a webhook listener trigger", "Ways and methods to set up a webhook service", and "Troubleshooting methods to make sure webhook works properly regarding payload"
+- Resources used for Part 1:
+  - CloudFormation Template: A revised version from Project 2/3 to help make a placeholder for creating the instance used in the project, as within the instance is where all the content is done and made
+  - [LinuxBash](https://www.linuxbash.sh/post/how-to-create-bash-scripts-for-container-management-docker): Provided methods and ways to create the bash script that pulls docker images and removes and creates new containers for running my image
+  - [Docker](https://docs.docker.com/reference/dockerfile/): Used to understand the docker commands usable in these types of files and which ones are most fitting for project requirements
+  - ChatGPT: Of course I just had to use this bad boy to help me create a quick and easy web page to work off of for the rest of the project (Gave it the following prompt: "write a very basic index.html file with a theme of my favorite mobile game of all time: brawl stars! Have it simply share what its about and that its my favorite mobile game! make it obvious it was written by you and made for me! have it include another html page as well as a css file to go with it", it also helped in the bash script file to set up a proper way to run commands without errors halting it
+- Resources used for Part 2 of the Project: 
+  - [adnanh's `webhook`](https://github.com/adnanh/webhook): Used the webhook package to operate the whole Continuous Deployment, also provided info on creating webhook listeners and how to structure them with certain code blocks
+  - [Using GitHub actions and `webhook`s](https://levelup.gitconnected.com/automated-deployment-using-docker-github-actions-and-webhooks-54018fc12e32): Provided information on how to integrate webhooks to the git workflow in order to properly link the webhook listener in order to carry out the bash script
+  - [Using DockerHub and `webhook`s](https://blog.devgenius.io/build-your-first-ci-cd-pipeline-using-docker-github-actions-and-webhooks-while-creating-your-own-da783110e151): Same purpose as the above resource
+  - [Linux Handbook - How to Create a `systemd` Service](https://linuxhandbook.com/create-systemd-services/): Provides information on how to set up the webhook service to properly initialize the webhook to work and track properly for Continuous Deployment
+- Resource used for the Part 4 diagram:
+  - [LucidChart](https://lucid.app/documents#/home?folder_id=recent): Used this website to create the diagram
