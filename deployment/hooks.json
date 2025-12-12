@@ -10,7 +10,8 @@
         "secret": "secretValue",
         "parameter": {
           "source": "header",
-          "name": "X-Hub-Signature-256"
+          "name": "X-Hub-Signature-256",
+          "strip": "sha256="
         }
       }
     }
